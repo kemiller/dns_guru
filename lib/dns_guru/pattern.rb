@@ -33,13 +33,34 @@ module DnsGuru
 
 			params.merge(hash)
 		end
+
+		def generate(options)
+			hostname = segments.map do |seg|
+				seg.generate(options)
+			end
+
+			if hostname.include?(nil)
+				return nil
+			end
+
+			# Whatever is left should be identical
+			if params == options
+				return hostname.join('.')
+			end
+
+		end
+
+		def rewrite(domain, new_options)
+			options = match(domain)
+			generate(options.merge(new_options))
+		end
 	end
 
 	class Segment
 		def initialize(string)
 			@string = string
 		end
-		
+
 		def param
 			nil
 		end
@@ -50,6 +71,13 @@ module DnsGuru
 			"([[:alnum:]_-]+)"
 		end
 
+		def generate(options)
+			unless options[param]
+				return nil
+			end
+			options.delete(param)
+		end
+
 		def param
 			@string.to_sym
 		end
@@ -58,6 +86,10 @@ module DnsGuru
 	class StaticSegment < Segment
 		def substitute
 			"(#{@string})"
+		end
+
+		def generate(options)
+			@string
 		end
 	end
 end

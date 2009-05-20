@@ -1,6 +1,6 @@
 
 require 'test/unit'
-require 'dns_guru/request_mixin'
+require 'dns_guru'
 
 module DnsGuru
 	class TestRequestMixin < Test::Unit::TestCase

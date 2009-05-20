@@ -1,6 +1,6 @@
 
 require 'test/unit'
-require 'dns_guru/pattern'
+require 'dns_guru'
 
 module DnsGuru
 	class TestPattern < Test::Unit::TestCase

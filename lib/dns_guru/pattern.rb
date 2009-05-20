@@ -54,7 +54,6 @@ module DnsGuru
 			if params == options
 				return hostname.join('.')
 			end
-
 		end
 
 		def rewrite(domain, new_options)

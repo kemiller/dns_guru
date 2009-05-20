@@ -19,7 +19,7 @@ module DnsGuru
 		end
 
 		def rewrite(string, options = {})
-			iterate(:rewrite, string, options)
+			generate(match(string).merge(options))
 		end
 
 		def pattern(pattern_string, params = {})
@@ -29,11 +29,13 @@ module DnsGuru
 		protected
 
 		def iterate(method, *args)
-			@patterns.each do |p|
-				m = p.send(method, *args)
-				return m if m
+			@patterns.each do |pat|
+				val = pat.send(method, *args)
+				if val
+					return val
+				end	
 			end
-			return nil
+			nil
 		end
 
 	end

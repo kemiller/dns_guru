@@ -1,6 +1,6 @@
 
-require 'dns_guru/matcher'
 require 'test/unit'
+require 'dns_guru'
 
 module DnsGuru
 	class TestMatcher < Test::Unit::TestCase
@@ -46,24 +46,6 @@ module DnsGuru
 			assert_equal nil, m2.got_generate, "Second Pattern should not have been checked"
 		end
 
-		def test_rewrite_no_hit
-			str = "myrewrite_here"
-			opts = { :foo => 'bar' }
-			matcher = Matcher.new([m1 = MockPattern.new, m2 = MockPattern.new])
-			matcher.rewrite(str, opts)
-			assert_equal [str, opts], m1.got_rewrite, "First Pattern wasn't checked"
-			assert_equal [str, opts], m2.got_rewrite, "Second Pattern wasn't checked"
-		end
-
-		def test_rewrite_hit
-			str = "myrewrite_here"
-			opts = { :foo => 'bar' }
-			matcher = Matcher.new([m1 = MockPattern.new(true), m2 = MockPattern.new])
-			matcher.rewrite(str, opts)
-			assert_equal [str, opts], m1.got_rewrite, "First Pattern wasn't checked"
-			assert_equal nil, m2.got_rewrite, "Second Pattern should not have been checked"
-		end
-
 		def test_pattern
 			matcher = Matcher.new([])
 			matcher.pattern ":asdf.:rase", :param => 'p1'
@@ -76,6 +58,7 @@ module DnsGuru
 			matcher.pattern ":app.:stage.:brand.com"
 
 			assert_equal "www.mmp.com", matcher.generate(:app => 'www', :brand => 'mmp', :stage => 'production')
+			assert_equal "www.mmp.com", matcher.rewrite("www.production.mmp.com")
 		end
 
 	end

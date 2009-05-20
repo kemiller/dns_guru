@@ -1,5 +1,8 @@
 
 require 'dns_guru/matcher'
+require 'dns_guru/pattern'
+require 'dns_guru/request_mixin'
+require 'dns_guru/controller_mixin'
 
 module DnsGuru
 

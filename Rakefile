@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'rake'
 require 'rake/testtask'
-require 'test/unit'
 
 task :default => [:test]
 

@@ -19,11 +19,11 @@ module DnsGuru
 		@matcher.match(domain)
 	end
 
-	def self.generate(options)
+	def self.generate(options = {})
 		@matcher.generate(options)
 	end
 
-	def self.rewrite(domain, options)
+	def self.rewrite(domain, options = {})
 		@matcher.rewrite(domain, options)
 	end
 end

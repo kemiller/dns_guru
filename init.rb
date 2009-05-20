@@ -2,7 +2,7 @@
 $: << File.join(File.dirname(__FILE__), "lib")
 require 'dns_guru'
 
-config_file = File.join(File.dirname(__FILE__), "../../../config/host_patterns.rb")
+config_file = File.join(File.dirname(__FILE__), "../../../config/hosts.rb")
 DnsGuru.init(config_file)
 
 class ActionController::Request

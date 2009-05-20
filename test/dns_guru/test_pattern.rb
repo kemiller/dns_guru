@@ -49,6 +49,11 @@ module DnsGuru
 			assert_equal "www.qa.mms.com", p.generate(:app => 'www', :stage => 'qa', :brand => 'mms', :tld => 'com')
 		end
 
+		def test_generate_with_defaults
+			p = Pattern.new(":app.:stage.:brand.:tld", :tld => 'com')
+			assert_equal "www.qa.mms.com", p.generate(:app => 'www', :stage => 'qa', :brand => 'mms')
+		end
+
 		def test_generate_with_statics
 			p = Pattern.new(":app.dev.:brand.:tld", :stage => 'development')
 			assert_equal "www.dev.mms.com", p.generate(:app => 'www', :stage => 'development', :brand => 'mms', :tld => 'com')

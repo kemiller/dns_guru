@@ -70,6 +70,14 @@ module DnsGuru
 			assert_kind_of Pattern, matcher.patterns.first, "Didn't make a pattern"
 		end
 
+		def test_pattern_precedence
+			matcher = Matcher.new([])
+			matcher.pattern ":app.:brand.com", :stage => 'production'
+			matcher.pattern ":app.:stage.:brand.com"
+
+			assert_equal "www.mmp.com", matcher.generate(:app => 'www', :brand => 'mmp', :stage => 'production')
+		end
+
 	end
 
 	class MockPattern

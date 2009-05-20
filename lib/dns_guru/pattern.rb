@@ -5,8 +5,8 @@ module DnsGuru
 		attr_reader :segments, :regexp, :params
 
 		def initialize(pattern, params={})
-			parse(pattern)
 			@params = params
+			parse(pattern)
 		end
 
 		def parse(pattern)
@@ -14,7 +14,7 @@ module DnsGuru
 
 			@segments = raw_segments.map do |seg| 
 				if seg =~ /\A:(.*)/
-					DynamicSegment.new($1)
+					DynamicSegment.new($1, params)
 				else
 					StaticSegment.new(seg)
 				end
@@ -66,8 +66,9 @@ module DnsGuru
 	end
 
 	class Segment
-		def initialize(string)
+		def initialize(string, params = {})
 			@string = string
+			@default = params.delete(param)
 		end
 
 		def param
@@ -82,7 +83,7 @@ module DnsGuru
 
 		def generate(options)
 			unless options[param]
-				return nil
+				return @default
 			end
 			options.delete(param)
 		end

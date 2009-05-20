@@ -26,6 +26,10 @@ module DnsGuru
 		def match(string)
 			md = @regexp.match(string)
 
+			unless md
+				return nil
+			end
+
 			hash = {}
 			md.captures.each_with_index do |m, i|
 				if segments[i].param

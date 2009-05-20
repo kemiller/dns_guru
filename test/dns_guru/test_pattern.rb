@@ -34,6 +34,11 @@ module DnsGuru
 			assert_equal({ :app => 'www', :stage => 'development', :brand => 'mmp', :tld => 'com' },  p.match("www.dev.mmp.com"))
 		end
 
+		def test_match_no_match
+			p = Pattern.new("foo")
+			assert_equal(nil,  p.match("ausfark"))
+		end
+
 		def test_localhost
 			p = Pattern.new("localhost", :stage => 'development', :brand => 'mms', :tld => 'com', :app => 'www')
 			assert_equal({ :app => 'www', :stage => 'development', :brand => 'mms', :tld => 'com' },  p.match("localhost"))

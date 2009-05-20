@@ -22,6 +22,11 @@ module DnsGuru
 			assert_equal({:app => 'www', :stage => 'production', :brand => 'mamapedia', :tld => 'com'},
 				@controller.host_name_params, "Wrong host name components derived from raw host name")
 		end
+
+		def test_host_name_params_no_host
+			assert_equal({:app => 'www', :stage => 'production', :brand => 'mmp', :tld => 'com'},
+				@controller.host_name_params, "No default values given")
+		end
 	end
 
 	class MockRequest

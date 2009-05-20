@@ -26,4 +26,8 @@ module DnsGuru
 	def self.rewrite(domain, options = {})
 		@matcher.rewrite(domain, options)
 	end
+
+	def self.defaults
+		@matcher.current_defaults
+	end
 end

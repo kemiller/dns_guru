@@ -14,7 +14,7 @@ class TestDnsGuru < Test::Unit::TestCase
 
 	def test_generate
 		assert_equal("www.google.com",  DnsGuru.generate(:app => 'www', :stage => 'production', :brand => 'google', :tld => 'com')) 
-		assert_equal("www.production.mmp.com",  DnsGuru.generate)
+		assert_equal("www.mmp.com",  DnsGuru.generate)
 	end
 
 	def test_rewrite

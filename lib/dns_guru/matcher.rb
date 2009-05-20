@@ -31,6 +31,10 @@ module DnsGuru
 			@defaults = options
 		end
 
+		def current_defaults
+			@defaults
+		end
+
 		protected
 
 		def iterate(method, *args)

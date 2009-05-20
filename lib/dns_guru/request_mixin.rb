@@ -7,7 +7,7 @@ module DnsGuru
 		end
 
 		def host_name_params
-			@host_name_params ||= DnsGuru.match(host)
+			@host_name_params ||= DnsGuru.match(host) || DnsGuru.defaults
 		end
 
 	end

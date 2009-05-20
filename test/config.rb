@@ -1,5 +1,7 @@
 
 DnsGuru.read do |matcher|
-	matcher.pattern ":app.:brand.:tld", :stage => 'development'
+	matcher.pattern "localhost", :app => 'www', :stage => 'development', :brand => 'mamasource', :tld => 'com'
+	matcher.pattern "seodev.:brand.:tld", :stage => 'qa'
+	matcher.pattern ":app.:brand.:tld", :stage => 'production'
+	matcher.pattern ":app.:stage.:brand.:tld"
 end
-

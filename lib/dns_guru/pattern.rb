@@ -41,6 +41,7 @@ module DnsGuru
 		end
 
 		def generate(options)
+			options = options.dup
 			hostname = segments.map do |seg|
 				seg.generate(options)
 			end
@@ -58,7 +59,9 @@ module DnsGuru
 
 		def rewrite(domain, new_options)
 			options = match(domain)
-			generate(options.merge(new_options))
+			if options
+				generate(options.merge(new_options))
+			end
 		end
 	end
 

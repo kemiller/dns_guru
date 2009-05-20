@@ -9,18 +9,18 @@ class TestDnsGuru < Test::Unit::TestCase
 	end
 
 	def test_match
-		assert_equal({:app => 'www', :stage => 'development', :brand => 'google', :tld => 'com'}, DnsGuru.match("www.google.com"))
+		assert_equal({:app => 'www', :stage => 'production', :brand => 'google', :tld => 'com'}, DnsGuru.match("www.google.com"))
 	end
 
 	def test_generate
-		assert_equal("www.google.com",  DnsGuru.generate(:app => 'www', :stage => 'development', :brand => 'google', :tld => 'com')) 
+		assert_equal("www.google.com",  DnsGuru.generate(:app => 'www', :stage => 'production', :brand => 'google', :tld => 'com')) 
 	end
 
 	def test_rewrite
 		assert_equal("www.mmp.com",  DnsGuru.rewrite("www.google.com", :brand => 'mmp')) 
 		assert_equal("mail.google.com",  DnsGuru.rewrite("www.google.com", :app => 'mail')) 
 		assert_equal("www.google.co.jp",  DnsGuru.rewrite("www.google.com", :tld => 'co.jp')) # this is iffy
-		assert_equal(nil,  DnsGuru.rewrite("www.google.com", :stage => 'production')) 
+		assert_equal(nil,  DnsGuru.rewrite("www.google.com", :stage => 'asdf')) 
 	end
 
 end

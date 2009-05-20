@@ -18,8 +18,8 @@ module DnsGuru
 			iterate(:generate, options)
 		end
 
-		def switch(string, options = {})
-			iterate(:switch, string, options)
+		def rewrite(string, options = {})
+			iterate(:rewrite, string, options)
 		end
 
 		def pattern(pattern_string, params = {})
@@ -33,6 +33,7 @@ module DnsGuru
 				m = p.send(method, *args)
 				return m if m
 			end
+			return nil
 		end
 
 	end

@@ -28,7 +28,9 @@ module DnsGuru
 
 			hash = {}
 			md.captures.each_with_index do |m, i|
-				hash[segments[i].param] = m if segments[i].param
+				if segments[i].param
+					hash[segments[i].param] = m 
+				end
 			end
 
 			params.merge(hash)

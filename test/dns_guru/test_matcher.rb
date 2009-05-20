@@ -46,22 +46,22 @@ module DnsGuru
 			assert_equal nil, m2.got_generate, "Second Pattern should not have been checked"
 		end
 
-		def test_switch_no_hit
-			str = "myswitch_here"
+		def test_rewrite_no_hit
+			str = "myrewrite_here"
 			opts = { :foo => 'bar' }
-			switcher = Matcher.new([m1 = MockPattern.new, m2 = MockPattern.new])
-			switcher.switch(str, opts)
-			assert_equal [str, opts], m1.got_switch, "First Pattern wasn't checked"
-			assert_equal [str, opts], m2.got_switch, "Second Pattern wasn't checked"
+			matcher = Matcher.new([m1 = MockPattern.new, m2 = MockPattern.new])
+			matcher.rewrite(str, opts)
+			assert_equal [str, opts], m1.got_rewrite, "First Pattern wasn't checked"
+			assert_equal [str, opts], m2.got_rewrite, "Second Pattern wasn't checked"
 		end
 
-		def test_switch_hit
-			str = "myswitch_here"
+		def test_rewrite_hit
+			str = "myrewrite_here"
 			opts = { :foo => 'bar' }
-			switcher = Matcher.new([m1 = MockPattern.new(true), m2 = MockPattern.new])
-			switcher.switch(str, opts)
-			assert_equal [str, opts], m1.got_switch, "First Pattern wasn't checked"
-			assert_equal nil, m2.got_switch, "Second Pattern should not have been checked"
+			matcher = Matcher.new([m1 = MockPattern.new(true), m2 = MockPattern.new])
+			matcher.rewrite(str, opts)
+			assert_equal [str, opts], m1.got_rewrite, "First Pattern wasn't checked"
+			assert_equal nil, m2.got_rewrite, "Second Pattern should not have been checked"
 		end
 
 		def test_pattern
@@ -73,7 +73,7 @@ module DnsGuru
 	end
 
 	class MockPattern
-		attr_reader :got_match, :got_generate, :got_switch
+		attr_reader :got_match, :got_generate, :got_rewrite
 
 		def initialize(rval = false)
 			@rval = rval
@@ -89,8 +89,8 @@ module DnsGuru
 			@rval
 		end
 
-		def switch(string, options)
-			@got_switch = [string, options]
+		def rewrite(string, options)
+			@got_rewrite = [string, options]
 			@rval
 		end
 	end

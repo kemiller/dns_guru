@@ -6,7 +6,7 @@ module DnsGuru
 
 		attr_reader :patterns
 
-		def initialize(patterns)
+		def initialize(patterns = [])
 			@patterns = patterns
 		end
 
@@ -14,8 +14,9 @@ module DnsGuru
 			iterate(:match, string)
 		end
 
-		def generate(options)
-			iterate(:generate, options)
+		def generate(options = {})
+			@defaults ||= {}
+			iterate(:generate, @defaults.merge(options))
 		end
 
 		def rewrite(string, options = {})
@@ -24,6 +25,10 @@ module DnsGuru
 
 		def pattern(pattern_string, params = {})
 			@patterns << Pattern.new(pattern_string, params)
+		end
+
+		def defaults(options = {})
+			@defaults = options
 		end
 
 		protected

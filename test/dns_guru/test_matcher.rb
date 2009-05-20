@@ -10,7 +10,7 @@ module DnsGuru
 		end
 
 		def test_initialize
-			matcher = Matcher.new([])
+			matcher = Matcher.new
 			assert_not_nil matcher
 		end
 
@@ -31,34 +31,43 @@ module DnsGuru
 		end
 
 		def test_generate_no_hit
-			str = "mygenerate_here"
+			hash = { :str => "mygenerate_here" }
 			generateer = Matcher.new([m1 = MockPattern.new, m2 = MockPattern.new])
-			generateer.generate(str)
-			assert_equal str, m1.got_generate, "First Pattern wasn't checked"
-			assert_equal str, m2.got_generate, "Second Pattern wasn't checked"
+			generateer.generate(hash)
+			assert_equal hash, m1.got_generate, "First Pattern wasn't checked"
+			assert_equal hash, m2.got_generate, "Second Pattern wasn't checked"
 		end
 
 		def test_generate_hit
-			str = "mygenerate_here"
+			hash = { :str => "mygenerate_here" }
 			generateer = Matcher.new([m1 = MockPattern.new(true), m2 = MockPattern.new])
-			generateer.generate(str)
-			assert_equal str, m1.got_generate, "First Pattern wasn't checked"
+			generateer.generate(hash)
+			assert_equal hash, m1.got_generate, "First Pattern wasn't checked"
 			assert_equal nil, m2.got_generate, "Second Pattern should not have been checked"
 		end
 
 		def test_pattern
-			matcher = Matcher.new([])
+			matcher = Matcher.new
 			matcher.pattern ":asdf.:rase", :param => 'p1'
 			assert_kind_of Pattern, matcher.patterns.first, "Didn't make a pattern"
 		end
 
 		def test_pattern_precedence
-			matcher = Matcher.new([])
+			matcher = Matcher.new
 			matcher.pattern ":app.:brand.com", :stage => 'production'
 			matcher.pattern ":app.:stage.:brand.com"
 
 			assert_equal "www.mmp.com", matcher.generate(:app => 'www', :brand => 'mmp', :stage => 'production')
 			assert_equal "www.mmp.com", matcher.rewrite("www.production.mmp.com")
+		end
+
+		def test_defaults
+			matcher = Matcher.new
+			matcher.defaults :stage => 'production', :brand => 'mmp', :app => 'www'
+			matcher.pattern ":app.:brand.com", :stage => 'production'
+			matcher.pattern ":app.:stage.:brand.com", :app => 'www', :brand => 'mmp', :stage => 'production'
+
+			assert_equal "www.mmp.com", matcher.generate
 		end
 
 	end

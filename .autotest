@@ -1,0 +1,8 @@
+require 'autotest/growl'
+class Autotest
+
+  def tests_for_file(filename)
+    return Dir["test/**/*.rb"]
+  end 
+
+end

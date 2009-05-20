@@ -2,7 +2,7 @@ require 'autotest/growl'
 class Autotest
 
   def tests_for_file(filename)
-    return Dir["test/**/*.rb"]
+    return (Dir["test/**/*.rb"] - ['test/config.rb'])
   end 
 
 end

@@ -29,6 +29,12 @@ module DnsGuru
 			assert_equal str, m1.got_match, "First Pattern wasn't checked"
 			assert_equal nil, m2.got_match, "Second Pattern should not have been checked"
 		end
+
+		def test_pattern
+			matcher = Matcher.new([])
+			matcher.pattern ":asdf.:rase", :param => 'p1'
+			assert_kind_of Pattern, matcher.patterns.first, "Didn't make a pattern"
+		end
 	end
 
 	class MockPattern

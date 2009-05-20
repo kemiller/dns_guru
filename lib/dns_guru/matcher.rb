@@ -1,4 +1,5 @@
 
+require 'dns_guru/pattern'
 
 module DnsGuru
 	class Matcher
@@ -14,6 +15,10 @@ module DnsGuru
 				m = p.match(string)
 				return m if m
 			end
+		end
+
+		def pattern(pattern_string, params = {})
+			@patterns << Pattern.new(pattern_string, params)
 		end
 
 	end

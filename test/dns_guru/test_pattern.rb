@@ -29,6 +29,11 @@ module DnsGuru
 			assert_equal({ :app => 'www-01', :stage => 'dev', :brand => 'mmp', :tld => 'com' },  p.match("www-01.dev.mmp.com"))
 		end
 
+		def test_match_with_specified_hyphens
+			p = Pattern.new(":app.:stage-:machine.:brand.:tld")
+			assert_equal({ :app => 'www', :machine => '01', :stage => 'dev', :brand => 'mmp', :tld => 'com' },  p.match("www.dev-01.mmp.com"))
+		end
+
 		def test_match_with_static_segments
 			p = Pattern.new(":app.dev.:brand.:tld", :stage => 'development')
 			assert_equal({ :app => 'www', :stage => 'development', :brand => 'mmp', :tld => 'com' },  p.match("www.dev.mmp.com"))

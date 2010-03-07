@@ -10,17 +10,13 @@ module DnsGuru
 		end
 
 		def parse(pattern)
-			raw_segments = pattern.split(/\./)
+			raw_segments = pattern.split(/(\.|-)/)
 
 			@segments = raw_segments.map do |seg| 
-				if seg =~ /\A:(.*)/
-					DynamicSegment.new($1, params)
-				else
-					StaticSegment.new(seg)
-				end
-			end.compact
+				Segment.make_segment(seg, @params)
+			end
  
-			@regexp = /\A#{segments.map { |s| s.substitute }.join('\.')}\Z/
+			@regexp = /\A#{segments.map { |s| s.substitute }.join}\Z/
 		end
 
 		def match(string)
@@ -52,7 +48,7 @@ module DnsGuru
 
 			# Whatever is left should be identical
 			if params == options
-				return hostname.join('.')
+				return hostname.join
 			end
 		end
 
@@ -65,6 +61,24 @@ module DnsGuru
 	end
 
 	class Segment
+
+		class << self
+			def inherited(klass)
+				types << klass
+			end
+
+			def types
+				@types ||= []
+			end
+
+			def make_segment(string, params = {})
+				klass = types.detect do |t|
+					t.recognize(string)
+				end
+				klass.new(string, params)
+			end
+		end
+
 		def initialize(string, params = {})
 			@string = string
 			@default = params.delete(param)
@@ -73,9 +87,14 @@ module DnsGuru
 		def param
 			nil
 		end
+
 	end
 
 	class DynamicSegment < Segment
+		def self.recognize(string_segment)
+			string_segment =~ /\A:(.*)/
+		end
+
 		def substitute
 			"([[:alnum:]_-]+)"
 		end
@@ -88,13 +107,17 @@ module DnsGuru
 		end
 
 		def param
-			@string.to_sym
+			@param ||= @string[1,1000].to_sym
 		end
 	end
 
 	class StaticSegment < Segment
+		def self.recognize(string_segment)
+			true
+		end
+
 		def substitute
-			"(#{@string})"
+			"(#{Regexp.escape(@string)})"
 		end
 
 		def generate(options)

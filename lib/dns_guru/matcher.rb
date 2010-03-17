@@ -20,7 +20,12 @@ module DnsGuru
 		end
 
 		def rewrite(string, options = {})
-			generate(match(string).merge(options))
+			params = match(string)
+			if params
+				generate(match(string).merge(options))
+			else
+				string
+			end
 		end
 
 		def pattern(pattern_string, params = {})

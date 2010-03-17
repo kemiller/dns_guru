@@ -32,16 +32,16 @@ module DnsGuru
 
 		def test_generate_no_hit
 			hash = { :str => "mygenerate_here" }
-			generateer = Matcher.new([m1 = MockPattern.new, m2 = MockPattern.new])
-			generateer.generate(hash)
+			matcher = Matcher.new([m1 = MockPattern.new, m2 = MockPattern.new])
+			matcher.generate(hash)
 			assert_equal hash, m1.got_generate, "First Pattern wasn't checked"
 			assert_equal hash, m2.got_generate, "Second Pattern wasn't checked"
 		end
 
 		def test_generate_hit
 			hash = { :str => "mygenerate_here" }
-			generateer = Matcher.new([m1 = MockPattern.new(true), m2 = MockPattern.new])
-			generateer.generate(hash)
+			matcher = Matcher.new([m1 = MockPattern.new(true), m2 = MockPattern.new])
+			matcher.generate(hash)
 			assert_equal hash, m1.got_generate, "First Pattern wasn't checked"
 			assert_equal nil, m2.got_generate, "Second Pattern should not have been checked"
 		end
@@ -68,6 +68,11 @@ module DnsGuru
 			matcher.pattern ":app.:stage.:brand.com", :app => 'www', :brand => 'mmp', :stage => 'production'
 
 			assert_equal "www.mmp.com", matcher.generate
+		end
+
+		def test_rewrite_no_hit
+			matcher = Matcher.new
+			assert_equal "asdfasdf", matcher.rewrite("asdfasdf",:anything => :else)
 		end
 
 	end

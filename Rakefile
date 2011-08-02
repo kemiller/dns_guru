@@ -23,8 +23,8 @@ PKG_FILES = FileList[
 
 spec = Gem::Specification.new do |s|
   s.name = "dns_guru"
-  s.version = "0.1.3"
-  s.author = "Dns Guru"
+  s.version = "0.1.4"
+  s.author = "Ken Miller"
   s.email = "ken.miller@gmail.com"
   s.homepage = "http://github.com/kemiller/dns_guru"
   s.platform = Gem::Platform::RUBY
